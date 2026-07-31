@@ -27,7 +27,6 @@ const ADMIN_PASSWORD = "admin123";
 const firebaseConfig = {
 
   apiKey: "AIzaSyBERbibMf6oQ7xcVL-8qHbWwAIQav3yiaw",
-
   authDomain: "mydress-47603.firebaseapp.com",
   databaseURL: "https://mydress-47603-default-rtdb.firebaseio.com",
   projectId: "mydress-47603",
