@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f5f5f5; padding: 20px; direction: rtl; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 0px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header { background: #e774b7; color: white; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; }
+        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .info-row:last-child { border-bottom: none; }
+        .label { color: #888; font-size: 14px; }
+        .value { font-weight: 600; color: #333; }
+        .total-box { background: #fce4f4; padding: 20px; margin-top: 20px; text-align: center; border: 2px solid #e774b7; }
+        .total-box h2 { color: #e774b7; margin: 0; font-size: 28px; }
+        .footer { background: #faf8f6; padding: 20px; text-align: center; color: #888; font-size: 12px; }
+        .status { display: inline-block; padding: 5px 15px; background: #ffc107; color: #333; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ MY DRESS</h1>
+            <p>طلب جديد وارد</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-row">
+                <span class="label">📅 التاريخ</span>
+                <span class="value">{{orderDate}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">👤 اسم العميل</span>
+                <span class="value">{{fullName}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">📱 الهاتف</span>
+                <span class="value" style="direction: ltr; text-align: left;">{{phone}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">📧 الإيميل</span>
+                <span class="value">{{email}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">📦 المنتج</span>
+                <span class="value">{{productName}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">📍 الولاية</span>
+                <span class="value">{{state}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">🏠 العنوان</span>
+                <span class="value">{{address}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">🔄 نوع الطلب</span>
+                <span class="value">{{orderType}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">💳 طريقة الدفع</span>
+                <span class="value">{{paymentMethod}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">🧾 رقم المعاملة</span>
+                <span class="value">{{transactionNumber}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">🎁 كوبون الخصم</span>
+                <span class="value">{{couponCode}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">📝 ملاحظات</span>
+                <span class="value">{{note}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">🚚 سعر الشحن</span>
+                <span class="value">{{shippingPrice}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">💰 الخصم</span>
+                <span class="value" style="color: #28a745;">{{discount}}</span>
+            </div>
+            
+            <div class="info-row">
+                <span class="label">📊 الحالة</span>
+                <span class="status">{{status}}</span>
+            </div>
+            
+            <div class="total-box">
+                <p style="margin: 0 0 10px 0; color: #666;">المجموع الكلي</p>
+                <h2>{{total}}</h2>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>تم إرسال هذا الطلب تلقائياً من متجر MY DRESS</p>
+            <p>© 2025 MY DRESS - جميع الحقوق محفوظة</p>
+        </div>
+    </div>
+</body>
+</html>
