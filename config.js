@@ -24,34 +24,44 @@ const defaultStoreSettings = {
 const ADMIN_PASSWORD = "admin123";
 
 // ===== إعدادات Firebase (كما كانت - تعمل فوراً) =====
-const firebaseConfig = {
-    apiKey: "AIzaSyCp1d6k0K_-7u_kFGbB2TkLkZC-RbjVYcw",
-    authDomain: "test-8a022.firebaseapp.com",
-    databaseURL: "https://test-8a022-default-rtdb.firebaseio.com",
-    projectId: "test-8a022",
-    storageBucket: "test-8a022.firebasestorage.app",
-    messagingSenderId: "259248448691",
-    appId: "1:259248448691:web:99e580448e04b7d8c5bcc6",
-    measurementId: "G-K1L594RXJQ"
-};
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyBERbibMf6oQ7xcVL-8qHbWwAIQav3yiaw",
+
+    authDomain: "mydress-47603.firebaseapp.com",
+
+    databaseURL: "https://mydress-47603-default-rtdb.firebaseio.com",
+
+    projectId: "mydress-47603",
+
+    storageBucket: "mydress-47603.firebasestorage.app",
+
+    messagingSenderId: "513570993206",
+
+    appId: "1:513570993206:web:0dc73b3b1c9923b7b3d497",
+
+    measurementId: "G-TVNXYX2E9C"
+
+  };
+
 
 // ===== إعدادات Supabase (اختياري - غيّرها إذا تبي تستخدم Supabase) =====
 const supabaseConfig = {
-    url: "https://your-project.supabase.co",
-    anonKey: "your-anon-key"
+    url: "https://gjihgxdwumeekyrxcdsq.supabase.co",
+    anonKey: "sb_publishable_zYFSSc9ZWOQz733JFcx_LQ_6XHIAI8G"
 };
 
 // ===== إعدادات Cloudinary (رفع الصور) =====
 const cloudinaryConfig = {
-    cloudName: "y0apmkuz",
-    uploadPreset: "mydress"
+    cloudName: "vrwknoae",
+    uploadPreset: "ml_default"
 };
 
 // ===== إعدادات EmailJS (إرسال الإيميلات) =====
 const emailjsConfig = {
-    publicKey: "CKWFEy1mLeWLKlkkC",
-    serviceId: "service_y29ncb9",
-    templateId: "template_w2nxpda"
+    publicKey: "leU_2OIPw5yThaY0Z",
+    serviceId: "service_e6jtvm7",
+    templateId: "template_7y6czvb"
 };
 
 // ===== رابط Google Sheets (Apps Script Web App) =====
