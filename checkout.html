@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدفع - MY DRESS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <!-- Supabase (اختياري) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="container checkout-wrap">
+        <a href="index.html" class="back-link">← العودة إلى المتجر</a>
+        <h1><i class="fas fa-credit-card"></i> إتمام الدفع</h1>
+        <div id="checkoutProductInfo"></div>
+        <form id="checkoutForm" class="checkout-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> الاسم الكامل *</label>
+                    <input type="text" id="fullName" required placeholder="أدخل اسمك الكامل">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> رقم الهاتف *</label>
+                    <input type="tel" id="phone" required placeholder="05xxxxxxxx">
+                </div>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="example@email.com">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> نوع الطلب</label>
+                    <select id="orderType">
+                        <option value="buy">شراء</option>
+                        <option value="rent">كراء</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> الولاية *</label>
+                    <select id="state" required>
+                        <option value="">اختر الولاية</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-truck"></i> طريقة التوصيل</label>
+                    <select id="deliveryMethod">
+                        <option value="home">توصيل إلى المنزل</option>
+                        <option value="shipping">شركة شحن</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-money-bill-wave"></i> طريقة الدفع</label>
+                    <select id="paymentMethod">
+                        <option value="cash">الدفع عند الاستلام</option>
+                        <option value="card">بطاقة بنكية</option>
+                        <option value="ccp">CCP</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-home"></i> العنوان *</label>
+                <input type="text" id="address" required placeholder="أدخل عنوانك التفصيلي">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-pencil-alt"></i> ملاحظة إضافية</label>
+                <textarea id="note" placeholder="أي ملاحظات تود إضافتها..."></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-receipt"></i> رقم المعاملة</label>
+                    <input type="text" id="transactionNumber" placeholder="رقم المعاملة (إن وجد)">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-gift"></i> كود الخصم</label>
+                    <input type="text" id="couponCode" placeholder="أدخل كود الخصم">
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-check-circle"></i> تأكيد الطلب
+            </button>
+        </form>
+        <div id="checkoutResult"></div>
+    </div>
+    <script src="config.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>

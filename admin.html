@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - MY DRESS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+    <!-- Supabase (اختياري) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="side-menu">
+            <h2>📊 لوحة التحكم</h2>
+            <button class="menu-btn active" data-target="panel-design">التصميم</button>
+            <button class="menu-btn" data-target="panel-products">المنتجات</button>
+            <button class="menu-btn" data-target="panel-categories">التصنيفات</button>
+            <button class="menu-btn" data-target="panel-slider">السلايدر</button>
+            <button class="menu-btn" data-target="panel-orders">الطلبات</button>
+            <button class="menu-btn" data-target="panel-profits">الأرباح</button>
+            <button class="menu-btn" data-target="panel-coupons">الكوبونات</button>
+            <button class="menu-btn" data-target="panel-shipping">الشحن</button>
+            <button class="menu-btn" data-target="panel-comments">التعليقات</button>
+            <hr>
+            <a href="index.html">← العودة إلى المتجر</a>
+        </aside>
+
+        <main class="admin-content">
+            <section id="panel-design" class="admin-panel active">
+                <h1>إعدادات التصميم</h1>
+                <div class="admin-form">
+                    <div class="form-group">
+                        <label>اسم المتجر</label>
+                        <input type="text" id="storeNameInput" placeholder="اسم المتجر" value="MY DRESS">
+                    </div>
+                    <div class="form-group">
+                        <label>اللقب</label>
+                        <input type="text" id="nicknameInput" placeholder="اللقب" value="كراء وشراء الفساتين">
+                    </div>
+                    <div class="form-group">
+                        <label>اللون الأساسي</label>
+                        <input type="color" id="primaryColorInput" value="#e774b7">
+                    </div>
+                    <div class="form-group">
+                        <label>اللون الثانوي</label>
+                        <input type="color" id="secondaryColorInput" value="#fce4f4">
+                    </div>
+                    <div class="form-group">
+                        <label>لون الإبراز</label>
+                        <input type="color" id="accentColorInput" value="#e774b7">
+                    </div>
+                    <div class="form-group">
+                        <label>لون النصوص</label>
+                        <input type="color" id="textColorInput" value="#1a1a2e">
+                    </div>
+                    <div class="form-group">
+                        <label>نص التذييل</label>
+                        <textarea id="footerTextInput" rows="2">© 2025 MY DRESS — جميع الحقوق محفوظة</textarea>
+                    </div>
+                    <button id="saveDesignBtn" class="save-btn">💾 حفظ التصميم</button>
+                    <div id="designMessage" class="message"></div>
+                </div>
+            </section>
+
+            <section id="panel-products" class="admin-panel">
+                <h1>المنتجات</h1>
+                <form id="productForm" class="admin-form">
+                    <div class="form-group">
+                        <label>اسم المنتج *</label>
+                        <input type="text" id="productName" placeholder="اسم المنتج" required>
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف *</label>
+                        <textarea id="productDescription" placeholder="وصف المنتج" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>الصور *</label>
+                        <div id="productDropZone" class="drop-zone">
+                            <div class="drop-zone-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>اسحب وأفلت الصور هنا</p>
+                                <p class="small-note">أو انقر لتحديد الملفات</p>
+                            </div>
+                            <input type="file" id="productImages" accept="image/*" multiple required>
+                        </div>
+                        <div id="productImagePreview" class="image-preview-grid"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>السعر *</label>
+                            <input type="number" id="productPrice" placeholder="السعر" required>
+                        </div>
+                        <div class="form-group">
+                            <label>السعر قبل الخصم</label>
+                            <input type="number" id="productBeforeDiscount" placeholder="قبل الخصم">
+                        </div>
+                        <div class="form-group">
+                            <label>السعر بعد الخصم</label>
+                            <input type="number" id="productAfterDiscount" placeholder="بعد الخصم">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>النوع</label>
+                            <select id="productMode">
+                                <option value="buy">شراء</option>
+                                <option value="rent">كراء</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>المخزون</label>
+                            <input type="number" id="productStock" placeholder="المخزون">
+                        </div>
+                        <div class="form-group">
+                            <label>التصنيف</label>
+                            <select id="productCategory">
+                                <option value="">اختر تصنيفاً</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>المقاسات</label>
+                            <input type="text" id="productSizes" placeholder="S, M, L, XL">
+                        </div>
+                        <div class="form-group">
+                            <label>الألوان</label>
+                            <input type="text" id="productColors" placeholder="أحمر، أزرق، أسود">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><input type="checkbox" id="isBestSeller"> الأكثر مبيعاً</label>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="isSpecialOffer"> عرض خاص</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="save-btn">💾 حفظ المنتج</button>
+                </form>
+                <div id="productMessage" class="message"></div>
+                <h2>قائمة المنتجات</h2>
+                <div id="productsAdminList" class="products-grid"></div>
+            </section>
+
+            <section id="panel-categories" class="admin-panel">
+                <h1>التصنيفات</h1>
+                <div class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="categoryName" placeholder="اسم التصنيف">
+                        </div>
+                        <div class="form-group">
+                            <button id="addCategoryBtn" class="save-btn">➕ إضافة تصنيف</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="categoryMessage" class="message"></div>
+                <div id="categoriesAdminList" class="categories-grid"></div>
+            </section>
+
+            <section id="panel-slider" class="admin-panel">
+                <h1>السلايدر</h1>
+                <div class="admin-form">
+                    <div class="form-group">
+                        <label>عنوان الشريحة *</label>
+                        <input type="text" id="slideTitle" placeholder="عنوان الشريحة">
+                    </div>
+                    <div class="form-group">
+                        <label>نص الشريحة *</label>
+                        <textarea id="slideText" placeholder="نص الشريحة"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>صورة الشريحة *</label>
+                        <div id="slideDropZone" class="drop-zone">
+                            <div class="drop-zone-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>اسحب وأفلت الصورة هنا</p>
+                                <p class="small-note">أو انقر لتحديد ملف</p>
+                            </div>
+                            <input type="file" id="slideImageFile" accept="image/*" required>
+                        </div>
+                        <div id="slideImagePreview" class="image-preview-grid"></div>
+                    </div>
+                    <button id="addSlideBtn" class="save-btn">➕ إضافة شريحة</button>
+                </div>
+                <div id="slideMessage" class="message"></div>
+                <div id="slidesAdminList"></div>
+            </section>
+
+            <section id="panel-orders" class="admin-panel">
+                <h1>📩 الطلبات</h1>
+                <div id="ordersAdminList" class="orders-grid"></div>
+            </section>
+
+            <section id="panel-profits" class="admin-panel">
+                <h1>الأرباح الشهرية</h1>
+                <div id="monthlyProfits"></div>
+            </section>
+
+            <section id="panel-coupons" class="admin-panel">
+                <h1>الكوبونات</h1>
+                <div class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="couponName" placeholder="رمز الكوبون">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="couponValue" placeholder="قيمة الخصم (دج)">
+                        </div>
+                        <div class="form-group">
+                            <button id="addCouponBtn" class="save-btn">➕ إضافة كوبون</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="couponMessage" class="message"></div>
+                <div id="couponsAdminList" class="coupons-grid"></div>
+            </section>
+
+            <section id="panel-shipping" class="admin-panel">
+                <h1>الشحن</h1>
+                <div class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="shippingState" placeholder="الولاية">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="shippingPrice" placeholder="سعر الشحن (دج)">
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="shippingFree"> شحن مجاني</label>
+                        </div>
+                        <div class="form-group">
+                            <button id="saveShippingBtn" class="save-btn">💾 حفظ الشحن</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="shippingMessage" class="message"></div>
+                <div id="shippingAdminList" class="shipping-grid"></div>
+            </section>
+
+            <section id="panel-comments" class="admin-panel">
+                <h1>التعليقات</h1>
+                <div id="commentsAdminList" class="comments-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

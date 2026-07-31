@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY DRESS | كراء وشراء الفساتين</title>
+
+    <!-- استيراد خط Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- مكتبة الأيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- ===== ربط ملف التنسيقات الخارجي ===== -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- ===== Firebase ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+    <!-- ===== EmailJS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+
+    <!-- ============================================
+    الحاوية الرئيسية
+    ============================================ -->
+    <div class="container">
+
+        <!-- ===== رأس الصفحة ===== -->
+        <header class="site-header">
+            <a href="#" class="logo">MY <span>DRESS</span></a>
+            <div class="nav-links">
+                <a href="index.html"><b>HOME</b></a>
+                <a href="#products"><b>PRODUCTS</b></a>
+                <a href="contact.html"><b>CONTACT</b></a>
+            </div>
+            <!-- زر السلة -->
+            <button class="cart-btn" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </button>
+        </header>
+
+        <!-- ===== قسم البطل (Hero) ===== -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>elegance <strong>  |  beauty  |  </strong>quality</h1>
+               <h4>فساتين راقية للإيجار والبيع. تشكيلة حصرية تناسب كل المناسبات.</p>
+                <div class="cta-group">
+                    <a href="#products" class="btn btn-outline">استعرض الفساتين</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== السلايدر ===== -->
+        <section class="hero-slider">
+            <div class="slider-track" id="sliderTrack">
+                <!-- سيتم إضافة الشرائح عبر الجافاسكربت -->
+            </div>
+            <div class="slider-nav">
+                <button id="prevSlide" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+                <button id="nextSlide" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="slider-dots" id="sliderDots"></div>
+        </section>
+
+     
+
+        <!-- ===== شريط التصفية والترتيب ===== -->
+        <section class="section">
+            <div class="filter-bar">
+              
+                <div class="filter-group">
+                    <label>ترتيب حسب:</label>
+                    <select id="sortProducts">
+                        <option value="default">الافتراضي</option>
+                        <option value="price-asc">السعر: من الأقل للأعلى</option>
+                        <option value="price-desc">السعر: من الأعلى للأقل</option>
+                        <option value="best-seller">الأكثر مبيعاً</option>
+                        <option value="newest">الأحدث</option>
+                    </select>
+                </div>
+                <!-- حقل البحث -->
+                <div class="search-wrap">
+                    <input id="searchInput" class="search-box" type="search" placeholder="ابحث عن فستان..." />
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== المنتجات ===== -->
+        <section class="section" id="products">
+            <h2 class="section-title">جميع الفساتين</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- سيتم إضافة المنتجات عبر الجافاسكربت -->
+            </div>
+        </section>
+
+        <!-- ===== تذييل الصفحة ===== -->
+        <footer class="site-footer">
+            <p id="footerText">© 2025 MY DRESS — كراء وشراء الفساتين. جميع الحقوق محفوظة.</p>
+            <!-- أيقونة الدخول إلى لوحة التحكم -->
+            <div class="footer-admin">
+                <i class="fas fa-shield-alt" onclick="showAdminLogin()" title="الدخول إلى لوحة التحكم"></i>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ===== نافذة تسجيل الدخول ===== -->
+    <div id="adminLoginModal" class="admin-login-modal">
+        <div class="admin-login-content">
+            <span class="close-admin-modal" onclick="closeAdminLogin()">&times;</span>
+            <h2><i class="fas fa-shield-alt"></i> لوحة التحكم</h2>
+            <p>أدخل كلمة المرور للوصول إلى لوحة الإدارة</p>
+            <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة المرور...">
+            <button onclick="verifyAdminPassword()">دخول</button>
+            <div id="adminLoginError" class="admin-login-error"></div>
+        </div>
+    </div>
+
+    <!-- ===== السلة الجانبية ===== -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> سلة التسوق</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">سلة التسوق فارغة</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>المجموع:</span>
+                <span class="total-amount" id="cartTotal">0 دج</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">المتابعة إلى الدفع</button>
+        </div>
+    </div>
+    <div class="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- ===== ربط ملفات الجافاسكربت ===== -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
