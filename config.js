@@ -54,7 +54,7 @@ const supabaseConfig = {
 // ===== إعدادات Cloudinary (رفع الصور) =====
 const cloudinaryConfig = {
     cloudName: "vrwknoae",
-    uploadPreset: "ml_default"
+    uploadPreset: "mydress"
 };
 
 // ===== إعدادات EmailJS (إرسال الإيميلات) =====
