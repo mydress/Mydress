@@ -24,25 +24,25 @@ const defaultStoreSettings = {
 const ADMIN_PASSWORD = "admin123";
 
 // ===== إعدادات Firebase (كما كانت - تعمل فوراً) =====
-  const firebaseConfig = {
+const firebaseConfig = {
 
-    apiKey: "AIzaSyBERbibMf6oQ7xcVL-8qHbWwAIQav3yiaw",
+  apiKey: "AIzaSyBERbibMf6oQ7xcVL-8qHbWwAIQav3yiaw",
 
-    authDomain: "mydress-47603.firebaseapp.com",
+  authDomain: "mydress-47603.firebaseapp.com",
 
-    databaseURL: "https://mydress-47603-default-rtdb.firebaseio.com",
+  databaseURL: "https://mydress-47603-default-rtdb.firebaseio.com",
 
-    projectId: "mydress-47603",
+  projectId: "mydress-47603",
 
-    storageBucket: "mydress-47603.firebasestorage.app",
+  storageBucket: "mydress-47603.firebasestorage.app",
 
-    messagingSenderId: "513570993206",
+  messagingSenderId: "513570993206",
 
-    appId: "1:513570993206:web:0dc73b3b1c9923b7b3d497",
+  appId: "1:513570993206:web:0dc73b3b1c9923b7b3d497",
 
-    measurementId: "G-TVNXYX2E9C"
+  measurementId: "G-TVNXYX2E9C"
 
-  };
+};
 
 
 // ===== إعدادات Supabase (اختياري - غيّرها إذا تبي تستخدم Supabase) =====
