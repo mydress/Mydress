@@ -1,9 +1,9 @@
-# MY DRESS - متجر فساتين إلكتروني (محدث بالكامل)
+# TECH GLASS - متجر إكسسوارات هواتف إلكتروني (ثيم Liquid Glass 🧡🖤)
 
 ## 📁 هيكل المشروع
 
 ```
-my-dress/
+tech-glass/
 ├── index.html          # الصفحة الرئيسية
 ├── admin.html          # لوحة التحكم
 ├── checkout.html       # صفحة الدفع

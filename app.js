@@ -9,6 +9,21 @@ console.log("✅ تم تحميل App.js بنجاح");
 
 initDB();
 
+/* ===== حركة الظهور عند التمرير (Scroll Reveal) ===== */
+function initScrollReveal() {
+    const items = document.querySelectorAll('[data-reveal]');
+    if (!items.length) return;
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    items.forEach(el => io.observe(el));
+}
+
 let allProducts = [];
 let currentSlideIndex = 0;
 let sliderTimer = null;
@@ -21,7 +36,7 @@ function applyStoreSettings() {
     document.documentElement.style.setProperty("--accent-color", settings.accentColor);
     document.documentElement.style.setProperty("--text-color", settings.textColor);
     const footerText = document.getElementById("footerText");
-    if (footerText) footerText.textContent = settings.footerText || "© 2025 MY DRESS - جميع الحقوق محفوظة";
+    if (footerText) footerText.textContent = settings.footerText || "© 2025 TECH GLASS - جميع الحقوق محفوظة";
 }
 
 /* ===== السلايدر ===== */
@@ -32,7 +47,7 @@ function renderSlider(slides) {
 
     if (!slides || !slides.length) {
         slides = [
-            { title: "مرحباً بك في MY DRESS", text: "اكتشف أجمل الفساتين للكراء والشراء.", image: "" },
+            { title: "مرحباً بك في TECH GLASS", text: "اكتشف أفخم إكسسوارات الهواتف الذكية بأسعار تنافسية.", image: "" },
             { title: "عروض خاصة", text: "اطلع على أحدث التخفيضات والعروض.", image: "" }
         ];
     }
@@ -40,7 +55,7 @@ function renderSlider(slides) {
     track.innerHTML = slides.map((slide) => {
         const bgStyle = slide.image 
             ? `background-image: url('${slide.image}'); background-size: cover; background-position: center;` 
-            : `background: linear-gradient(135deg, #e774b7, #fce4f4);`;
+            : `background: linear-gradient(135deg, #4da3ff, #16294a);`;
         return `
         <div class="slide" style="${bgStyle}">
             <div class="slide-overlay">
@@ -115,12 +130,12 @@ function renderCategories(categories) {
     if (!grid) return;
 
     if (!categories || !categories.length) {
-        categories = [{ name: "الكل" }, { name: "فساتين سهرة" }, { name: "فساتين زفاف" }, { name: "فساتين عادية" }];
+        categories = [{ name: "الكل" }, { name: "كفرات هواتف" }, { name: "سماعات لاسلكية" }, { name: "شواحن وكابلات" }, { name: "حافظات شاشة" }];
     }
 
-    grid.innerHTML = categories.map(cat => `
-        <div class="card category-card" onclick="filterByCategory('${cat.name}')">
-            <span class="icon">👗</span>
+    grid.innerHTML = categories.map((cat, i) => `
+        <div class="card category-card" data-reveal style="transition-delay:${i * 60}ms" onclick="filterByCategory('${cat.name}')">
+            <span class="icon">📱</span>
             <h3>${cat.name}</h3>
         </div>
     `).join("");
@@ -129,6 +144,7 @@ function renderCategories(categories) {
         filterSelect.innerHTML = '<option value="all">كل التصنيفات</option>' +
             categories.map(cat => `<option value="${cat.name}">${cat.name}</option>`).join("");
     }
+    initScrollReveal();
 }
 
 /* ===== المنتجات ===== */
@@ -140,8 +156,8 @@ function renderProducts(products, containerId = "productsGrid") {
         return;
     }
 
-    container.innerHTML = products.map(product => `
-        <div class="card product-card">
+    container.innerHTML = products.map((product, i) => `
+        <div class="card product-card" data-reveal style="transition-delay:${(i % 8) * 60}ms">
             <div class="product-image-wrap">
                 <img src="${product.images && product.images.length > 0 ? product.images[0] : ''}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'" />
                 ${product.isSpecialOffer ? `<span class="badge sale">عرض خاص</span>` : ""}
@@ -169,6 +185,7 @@ function renderProducts(products, containerId = "productsGrid") {
             </div>
         </div>
     `).join("");
+    initScrollReveal();
 }
 
 function getStarRatingHTML(rating) {
@@ -269,6 +286,15 @@ function addToCart(productId) {
     updateCartUI();
     showNotification(`تم إضافة ${product.name} إلى السلة!`, 'success');
     openCart();
+
+    // 📊 Facebook Pixel: AddToCart
+    fbTrack('AddToCart', {
+        content_name: product.name,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: product.afterDiscount || product.price || 0,
+        currency: 'DZD'
+    });
 }
 
 function removeFromCart(productId) {
@@ -388,6 +414,7 @@ async function loadHomePage() {
 
         updateCartUI();
         setupSearch();
+        initScrollReveal();
     } catch (error) {
         console.error("خطأ في تحميل الصفحة الرئيسية:", error);
         renderSlider([]);

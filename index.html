@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY DRESS | BY WISSOU</title>
+    <title>wahab phone | وهاب فون</title>
 
     <!-- استيراد خط Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="logo.png">
 
+    <!-- ===== Facebook Pixel (الإعدادات في config.js) ===== -->
+    <script src="config.js"></script>
+    <script src="pixel.js"></script>
+
     <!-- ===== Firebase ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -24,6 +28,7 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
+    <div class="bg-orb"></div>
 
     <!-- ============================================
     الحاوية الرئيسية
@@ -32,7 +37,7 @@
 
         <!-- ===== رأس الصفحة ===== -->
         <header class="site-header">
-            <a href="#" class="logo">MY <span>DRESS</span></a>
+            <a href="#" class="logo">WAHAB <span> PHONE</span></a>
             <div class="nav-links">
                 <a href="index.html"><b>HOME</b></a>
                 <a href="#products"><b>PRODUCTS</b></a>
@@ -48,10 +53,11 @@
         <!-- ===== قسم البطل (Hero) ===== -->
         <section class="hero">
             <div class="hero-text">
-                <h1>elegance <strong>  |  beauty  |  </strong>quality</h1>
-               <h4>فساتين راقية للإيجار والبيع. تشكيلة حصرية تناسب كل المناسبات.</p>
+                <h1>precision <strong>  |  style  |  </strong>protection</h1>
+                <h4>كل شيء يخص الهواتف النقالة هنا عند WAHAB PHONE</h4>
                 <div class="cta-group">
-                    <a href="#products" class="btn btn-outline">استعرض الفساتين</a>
+                    <a href="#products" class="btn">استعرض الإكسسوارات</a>
+                    <a href="contact.html" class="btn btn-outline">تواصل معنا</a>
                 </div>
             </div>
         </section>
@@ -71,7 +77,7 @@
      
 
         <!-- ===== شريط التصفية والترتيب ===== -->
-        <section class="section">
+        <section class="section" data-reveal>
             <div class="filter-bar">
               
                 <div class="filter-group">
@@ -86,14 +92,14 @@
                 </div>
                 <!-- حقل البحث -->
                 <div class="search-wrap">
-                    <input id="searchInput" class="search-box" type="search" placeholder="ابحث عن فستان..." />
+                    <input id="searchInput" class="search-box" type="search" placeholder="ابحث عن إكسسوار..." />
                 </div>
             </div>
         </section>
 
         <!-- ===== المنتجات ===== -->
-        <section class="section" id="products">
-            <h2 class="section-title">جميع الفساتين</h2>
+        <section class="section" id="products" data-reveal>
+            <h2 class="section-title">جميع الإكسسوارات</h2>
             <div class="products-grid" id="productsGrid">
                 <!-- سيتم إضافة المنتجات عبر الجافاسكربت -->
             </div>
@@ -101,7 +107,7 @@
 
         <!-- ===== تذييل الصفحة ===== -->
         <footer class="site-footer">
-            <p id="footerText">© 2025 MY DRESS — كراء وشراء الفساتين. جميع الحقوق محفوظة.</p>
+            <p id="footerText">© 2025 TECH GLASS — إكسسوارات الهواتف الذكية. جميع الحقوق محفوظة.</p>
             <!-- أيقونة الدخول إلى لوحة التحكم -->
             <div class="footer-admin">
                 <i class="fas fa-shield-alt" onclick="showAdminLogin()" title="الدخول إلى لوحة التحكم"></i>
@@ -142,7 +148,6 @@
     <div class="cart-overlay" onclick="toggleCart()"></div>
 
     <!-- ===== ربط ملفات الجافاسكربت ===== -->
-    <script src="config.js"></script>
     <script src="app.js"></script>
 
 </body>

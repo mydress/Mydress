@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - MY DRESS</title>
+    <title>لوحة التحكم - TECH GLASS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-    <!-- Supabase (اختياري) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+    <div class="bg-orb"></div>
     <div class="admin-layout">
         <aside class="side-menu">
             <h2>📊 لوحة التحكم</h2>
@@ -26,6 +25,7 @@
             <button class="menu-btn" data-target="panel-profits">الأرباح</button>
             <button class="menu-btn" data-target="panel-coupons">الكوبونات</button>
             <button class="menu-btn" data-target="panel-shipping">الشحن</button>
+            <button class="menu-btn" data-target="panel-landings">صفحات الهبوط</button>
             <button class="menu-btn" data-target="panel-comments">التعليقات</button>
             <hr>
             <a href="index.html">← العودة إلى المتجر</a>
@@ -34,34 +34,34 @@
         <main class="admin-content">
             <section id="panel-design" class="admin-panel active">
                 <h1>إعدادات التصميم</h1>
-                <div class="admin-form">
+                <div class="admin-form glass-card">
                     <div class="form-group">
                         <label>اسم المتجر</label>
-                        <input type="text" id="storeNameInput" placeholder="اسم المتجر" value="MY DRESS">
+                        <input type="text" id="storeNameInput" placeholder="اسم المتجر" value="TECH GLASS">
                     </div>
                     <div class="form-group">
                         <label>اللقب</label>
-                        <input type="text" id="nicknameInput" placeholder="اللقب" value="كراء وشراء الفساتين">
+                        <input type="text" id="nicknameInput" placeholder="اللقب" value="اكسسوارات الهاتف الفاخرة">
                     </div>
                     <div class="form-group">
                         <label>اللون الأساسي</label>
-                        <input type="color" id="primaryColorInput" value="#e774b7">
+                        <input type="color" id="primaryColorInput" value="#4da3ff">
                     </div>
                     <div class="form-group">
                         <label>اللون الثانوي</label>
-                        <input type="color" id="secondaryColorInput" value="#fce4f4">
+                        <input type="color" id="secondaryColorInput" value="#ffb84d">
                     </div>
                     <div class="form-group">
                         <label>لون الإبراز</label>
-                        <input type="color" id="accentColorInput" value="#e774b7">
+                        <input type="color" id="accentColorInput" value="#56c8ff">
                     </div>
                     <div class="form-group">
                         <label>لون النصوص</label>
-                        <input type="color" id="textColorInput" value="#1a1a2e">
+                        <input type="color" id="textColorInput" value="#f1f5f9">
                     </div>
                     <div class="form-group">
                         <label>نص التذييل</label>
-                        <textarea id="footerTextInput" rows="2">© 2025 MY DRESS — جميع الحقوق محفوظة</textarea>
+                        <textarea id="footerTextInput" rows="2">© 2025 TECH GLASS — جميع الحقوق محفوظة</textarea>
                     </div>
                     <button id="saveDesignBtn" class="save-btn">💾 حفظ التصميم</button>
                     <div id="designMessage" class="message"></div>
@@ -70,10 +70,10 @@
 
             <section id="panel-products" class="admin-panel">
                 <h1>المنتجات</h1>
-                <form id="productForm" class="admin-form">
+                <form id="productForm" class="admin-form glass-card">
                     <div class="form-group">
                         <label>اسم المنتج *</label>
-                        <input type="text" id="productName" placeholder="اسم المنتج" required>
+                        <input type="text" id="productName" placeholder="مثال: حماية شاشة نانو" required>
                     </div>
                     <div class="form-group">
                         <label>الوصف *</label>
@@ -110,7 +110,7 @@
                             <label>النوع</label>
                             <select id="productMode">
                                 <option value="buy">شراء</option>
-                                <option value="rent">كراء</option>
+                                <option value="rent">إيجار</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -126,15 +126,19 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>المقاسات</label>
-                            <input type="text" id="productSizes" placeholder="S, M, L, XL">
+                            <label>التوافق (موديلات الهاتف)</label>
+                            <input type="text" id="productCompatibility" placeholder="iPhone 15, Galaxy S24...">
                         </div>
                         <div class="form-group">
                             <label>الألوان</label>
-                            <input type="text" id="productColors" placeholder="أحمر، أزرق، أسود">
+                            <input type="text" id="productColors" placeholder="أسود، أبيض، أزرق">
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group">
+                            <label>الضمان</label>
+                            <input type="text" id="productWarranty" placeholder="مثال: سنة">
+                        </div>
                         <div class="form-group">
                             <label><input type="checkbox" id="isBestSeller"> الأكثر مبيعاً</label>
                         </div>
@@ -151,7 +155,7 @@
 
             <section id="panel-categories" class="admin-panel">
                 <h1>التصنيفات</h1>
-                <div class="admin-form">
+                <div class="admin-form glass-card">
                     <div class="form-row">
                         <div class="form-group">
                             <input type="text" id="categoryName" placeholder="اسم التصنيف">
@@ -167,7 +171,7 @@
 
             <section id="panel-slider" class="admin-panel">
                 <h1>السلايدر</h1>
-                <div class="admin-form">
+                <div class="admin-form glass-card">
                     <div class="form-group">
                         <label>عنوان الشريحة *</label>
                         <input type="text" id="slideTitle" placeholder="عنوان الشريحة">
@@ -206,7 +210,7 @@
 
             <section id="panel-coupons" class="admin-panel">
                 <h1>الكوبونات</h1>
-                <div class="admin-form">
+                <div class="admin-form glass-card">
                     <div class="form-row">
                         <div class="form-group">
                             <input type="text" id="couponName" placeholder="رمز الكوبون">
@@ -225,7 +229,7 @@
 
             <section id="panel-shipping" class="admin-panel">
                 <h1>الشحن</h1>
-                <div class="admin-form">
+                <div class="admin-form glass-card">
                     <div class="form-row">
                         <div class="form-group">
                             <input type="text" id="shippingState" placeholder="الولاية">
@@ -243,6 +247,66 @@
                 </div>
                 <div id="shippingMessage" class="message"></div>
                 <div id="shippingAdminList" class="shipping-grid"></div>
+            </section>
+
+            <section id="panel-landings" class="admin-panel">
+                <h1>🚀 صفحات الهبوط (Landing Pages)</h1>
+                <div class="admin-form glass-card">
+                    <div class="form-group">
+                        <label>اختر المنتج *</label>
+                        <select id="landingProductSelect">
+                            <option value="">اختر منتجاً</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>عنوان الصفحة *</label>
+                        <input type="text" id="landingTitle" placeholder="عنوان صفحة الهبوط">
+                    </div>
+                    <div class="form-group">
+                        <label>العنوان الفرعي</label>
+                        <input type="text" id="landingSubtitle" placeholder="وصف قصير يظهر تحت العنوان">
+                    </div>
+                    <div class="form-group">
+                        <label>صورة الخلفية</label>
+                        <div id="landingDropZone" class="drop-zone">
+                            <div class="drop-zone-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>اسحب وأفلت صورة الخلفية هنا</p>
+                            </div>
+                            <input type="file" id="landingBgImage" accept="image/*">
+                        </div>
+                        <div id="landingImagePreview" class="image-preview-grid"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>المحتوى المخصص *</label>
+                        <div class="landing-editor-toolbar">
+                            <button type="button" onclick="formatLanding('bold')"><i class="fas fa-bold"></i></button>
+                            <button type="button" onclick="formatLanding('italic')"><i class="fas fa-italic"></i></button>
+                            <button type="button" onclick="formatLanding('underline')"><i class="fas fa-underline"></i></button>
+                            <button type="button" onclick="formatLanding('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" onclick="formatLanding('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                            <button type="button" onclick="formatLanding('justifyRight')"><i class="fas fa-align-right"></i></button>
+                            <button type="button" onclick="formatLanding('justifyCenter')"><i class="fas fa-align-center"></i></button>
+                            <button type="button" onclick="formatLanding('h2')">H2</button>
+                            <button type="button" onclick="formatLanding('p')">P</button>
+                        </div>
+                        <div id="landingContent" class="landing-content-editor" contenteditable="true"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>لون الزر</label>
+                            <input type="color" id="landingBtnColor" value="#4da3ff">
+                        </div>
+                        <div class="form-group">
+                            <label>نص الزر</label>
+                            <input type="text" id="landingBtnText" value="اشترِ الآن">
+                        </div>
+                    </div>
+                    <button id="saveLandingBtn" class="save-btn">🚀 حفظ صفحة الهبوط</button>
+                </div>
+                <div id="landingMessage" class="message"></div>
+                <h2>صفحات الهبوط المنشأة</h2>
+                <div id="landingsAdminList"></div>
             </section>
 
             <section id="panel-comments" class="admin-panel">

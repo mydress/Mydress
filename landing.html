@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الهبوط - TECH GLASS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ===== Facebook Pixel (الإعدادات في config.js) ===== -->
+    <script src="config.js"></script>
+    <script src="pixel.js"></script>
+</head>
+<body>
+    <div class="bg-orb"></div>
+    <div class="landing-page-view">
+
+        <!-- ===== Hero: Liquid Glass Product Unveil ===== -->
+        <div id="landingHero" class="landing-hero">
+            <div id="landingHeroBg" class="landing-hero-bg"></div>
+            <div class="landing-hero-overlay"></div>
+
+            <!-- floating glass shards -->
+            <div class="glass-shard shard-1"></div>
+            <div class="glass-shard shard-2"></div>
+            <div class="glass-shard shard-3"></div>
+
+            <!-- reveal veil: "curtain" that lifts to unveil the product -->
+            <div id="landingRevealVeil" class="landing-reveal-veil">
+                <div class="reveal-badge"><i class="fas fa-gem"></i></div>
+                <div class="reveal-text">جارٍ الكشف عن المنتج...</div>
+            </div>
+
+            <div id="landingHeroContent" class="landing-hero-content">
+                <span id="landingKicker" class="landing-kicker"><i class="fas fa-bolt"></i> إطلاق جديد</span>
+                <h1 id="landingTitle">جارٍ التحميل...</h1>
+                <p id="landingSubtitle"></p>
+                <div id="landingPriceBadge" class="landing-price-badge" style="display:none;">
+                    <span class="price-label">السعر</span>
+                    <span class="price-value" id="landingPriceValue">0</span>
+                    <span class="price-currency">دج</span>
+                </div>
+                <a href="#" id="landingCtaBtn" class="btn landing-cta-main" style="display:none;">اشترِ الآن</a>
+            </div>
+
+            <div class="scroll-cue"><i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- ===== Trust bar ===== -->
+        <div class="landing-trust-bar" data-reveal>
+            <div class="trust-item"><i class="fas fa-truck"></i><span>توصيل سريع لجميع الولايات</span></div>
+            <div class="trust-item"><i class="fas fa-shield-alt"></i><span>ضمان الجودة</span></div>
+            <div class="trust-item"><i class="fas fa-money-bill-wave"></i><span>الدفع عند الاستلام</span></div>
+            <div class="trust-item"><i class="fas fa-headset"></i><span>دعم فوري</span></div>
+        </div>
+
+        <!-- ===== Dynamic body (filled by landing.js) ===== -->
+        <div class="landing-body" id="landingBody">
+            <div class="glass-card" style="padding: 3rem;">
+                <p>جارٍ تحميل المحتوى...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Sticky glass CTA bar ===== -->
+    <div class="landing-cta-bar" id="landingCtaBar">
+        <div>
+            <h4 id="productName" style="margin-bottom: 4px;">المنتج</h4>
+            <div class="price" id="productPrice">0 دج</div>
+        </div>
+        <button class="btn" id="buyBtn" onclick="buyProduct()">
+            <i class="fas fa-shopping-cart"></i> <span id="buyBtnText">اشترِ الآن</span>
+        </button>
+    </div>
+
+    <script src="landing.js"></script>
+</body>
+</html>
