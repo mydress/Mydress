@@ -51,21 +51,11 @@ async function loadCheckoutProduct() {
                 info.innerHTML = "<p>المنتج غير موجود</p>";
                 return;
             }
-            const finalPrice = product.afterDiscount || product.price || 0;
-
-            // 📊 Facebook Pixel: InitiateCheckout
-            fbTrack('InitiateCheckout', {
-                value: finalPrice,
-                currency: 'DZD',
-                num_items: 1,
-                content_ids: [productId]
-            });
-
             info.innerHTML = `
                 <div class="card">
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
-                    <p><strong>السعر:</strong> ${finalPrice} دج</p>
+                    <p><strong>السعر:</strong> ${product.afterDiscount || product.price || 0} دج</p>
                     <p><strong>النوع:</strong> ${product.mode === "rent" ? "كراء" : "شراء"}</p>
                 </div>
             `;
@@ -81,15 +71,6 @@ async function loadCheckoutProduct() {
         return;
     }
     const subtotal = cartTotal(cart);
-
-    // 📊 Facebook Pixel: InitiateCheckout
-    fbTrack('InitiateCheckout', {
-        value: subtotal,
-        currency: 'DZD',
-        num_items: cart.reduce((sum, item) => sum + Number(item.quantity || 1), 0),
-        content_ids: cart.map(i => i.id)
-    });
-
     info.innerHTML = `
         <div class="card">
             <h3>ملخص الطلب</h3>
@@ -209,15 +190,6 @@ document.getElementById("checkoutForm").addEventListener("submit", async functio
         await dbAdd('orders', orderData);
         console.log("✅ تم حفظ الطلب في قاعدة البيانات");
 
-        // 📊 Facebook Pixel: Purchase (أهم حدث لقياس عائد الإعلانات)
-        fbTrack('Purchase', {
-            value: orderData.total,
-            currency: 'DZD',
-            content_name: orderData.productName,
-            content_ids: orderItems ? orderItems.map(i => i.productId) : [orderData.productId],
-            num_items: orderItems ? orderItems.reduce((s, i) => s + Number(i.quantity || 1), 0) : 1
-        });
-
         // 2. إرسال إلى Google Sheets
         try {
             if (googleSheetsUrl) {
@@ -263,12 +235,12 @@ document.getElementById("checkoutForm").addEventListener("submit", async functio
         }
 
         document.getElementById("checkoutResult").innerHTML = `
-            <div class="card animate-in" style="background:rgba(40,167,69,0.12);border:1px solid #28a745;padding:24px;margin-top:20px;">
-                <h3 style="color:#4ade80;">✅ تم إرسال الطلب بنجاح!</h3>
+            <div class="card" style="background:#eaf8ef;border:2px solid #28a745;padding:20px;border-radius:0px;">
+                <h3 style="color:#28a745;">✅ تم إرسال الطلب بنجاح!</h3>
                 <p><strong>التاريخ:</strong> ${orderData.orderDate}</p>
                 <p><strong>المجموع:</strong> ${orderData.total} دج</p>
                 <p><strong>الحالة:</strong> قيد الانتظار</p>
-                <a href="index.html"><button style="margin-top:15px;background:linear-gradient(120deg,var(--primary-color),#8fd8ff);color:#ffffff;border:none;padding:12px 30px;border-radius:100px;cursor:pointer;font-weight:700;">🏠 العودة إلى المتجر</button></a>
+                <a href="index.html"><button style="margin-top:15px;background:var(--accent-color);color:white;border:none;padding:12px 30px;border-radius:0px;cursor:pointer;font-weight:600;">🏠 العودة إلى المتجر</button></a>
             </div>
         `;
 
@@ -282,9 +254,9 @@ document.getElementById("checkoutForm").addEventListener("submit", async functio
     } catch (error) {
         console.error("❌ خطأ:", error);
         document.getElementById("checkoutResult").innerHTML = `
-            <div class="card animate-in" style="background:rgba(220,53,69,0.12);border:1px solid #dc3545;padding:24px;margin-top:20px;">
-                <p style="color:#ff6b6b;">❌ فشل إرسال الطلب. يرجى المحاولة مرة أخرى.</p>
-                <p style="font-size:14px;color:var(--muted);">${error.message}</p>
+            <div class="card" style="background:#ffecec;border:2px solid #dc3545;padding:20px;border-radius:0px;">
+                <p style="color:#dc3545;">❌ فشل إرسال الطلب. يرجى المحاولة مرة أخرى.</p>
+                <p style="font-size:14px;color:#888;">${error.message}</p>
             </div>
         `;
     }

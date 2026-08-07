@@ -1,21 +1,21 @@
 /**
  * ============================================
- * ADMIN.JS - Phone Accessories Store
- * Supports Firebase + Supabase + Landing Pages
+ * ADMIN.JS - ملف منطق لوحة التحكم
+ * يدعم Firebase + Supabase
  * ============================================
  */
 
-console.log("✅ Admin.js loaded successfully");
+console.log("✅ تم تحميل Admin.js بنجاح");
 
 (function checkAdminAccess() {
     const lockout = checkLockout();
     if (lockout.locked) {
         document.body.innerHTML = `
-            <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;font-family:Inter,sans-serif;background:#030712;color:#f1f5f9;">
-                <h1 style="color:#ef4444;">⛔ تم حظر الوصول</h1>
+            <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;font-family:Inter,sans-serif;">
+                <h1 style="color:#dc3545;">⛔ تم حظر الوصول</h1>
                 <p>تم حظر الدخول لمدة 30 دقيقة بسبب محاولات خاطئة متكررة.</p>
                 <p>حاول بعد: <strong>${lockout.remainingMinutes} دقيقة</strong></p>
-                <a href="index.html" style="margin-top:20px;color:#00d4ff;">← العودة إلى المتجر</a>
+                <a href="index.html" style="margin-top:20px;color:#e774b7;">← العودة إلى المتجر</a>
             </div>
         `;
         return;
@@ -41,16 +41,16 @@ function showMessage(id, text, isSuccess = true) {
     if (!el) return;
     el.textContent = text;
     el.style.display = "block";
-    el.style.color = isSuccess ? "#10b981" : "#ef4444";
-    el.style.background = isSuccess ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)";
+    el.style.color = isSuccess ? "#12813a" : "#dc3545";
+    el.style.background = isSuccess ? "#eaf8ef" : "#ffecec";
     el.style.padding = "12px";
-    el.style.borderRadius = "12px";
+    el.style.borderRadius = "0px";
     el.style.margin = "10px 0";
-    el.style.border = isSuccess ? "1px solid rgba(16,185,129,0.3)" : "1px solid rgba(239,68,68,0.3)";
+    el.style.border = isSuccess ? "1px solid #12813a" : "1px solid #dc3545";
     setTimeout(() => { el.style.display = "none"; }, 8000);
 }
 
-/* ===== Drop Zone ===== */
+/* ===== منطقة السحب والإفلات ===== */
 function setupDropZone(dropZoneId, fileInputId, previewId, multiple = true) {
     const dropZone = byId(dropZoneId);
     const fileInput = byId(fileInputId);
@@ -92,7 +92,7 @@ function removePreview(el) {
     if (item) item.remove();
 }
 
-/* ===== Cloudinary Upload ===== */
+/* ===== رفع الصور إلى Cloudinary ===== */
 async function uploadToCloudinary(file) {
     if (!cloudinaryConfig.cloudName || cloudinaryConfig.cloudName === "YOUR_CLOUD_NAME" ||
         !cloudinaryConfig.uploadPreset || cloudinaryConfig.uploadPreset === "YOUR_UPLOAD_PRESET") {
@@ -127,7 +127,7 @@ async function uploadImages(files) {
     return { urls, errors };
 }
 
-/* ===== Load Data ===== */
+/* ===== تحميل البيانات ===== */
 async function loadProductsAdmin() {
     const list = byId("productsAdminList");
     if (!list) return;
@@ -135,15 +135,15 @@ async function loadProductsAdmin() {
         const products = await dbGetAll('products', 'createdAt', true);
         if (!products.length) { list.innerHTML = "<p class='small-note'>لا توجد منتجات بعد</p>"; return; }
         list.innerHTML = products.map(p => `
-            <div class="glass-card" style="padding:12px;">
-                <img src="${p.images && p.images.length > 0 ? p.images[0] : ''}" style="width:100%;height:180px;object-fit:cover;border-radius:12px;" onerror="this.style.display='none'" />
+            <div class="card" style="padding:12px;">
+                <img src="${p.images && p.images.length > 0 ? p.images[0] : ''}" style="width:100%;height:180px;object-fit:cover;border-radius:0px;" onerror="this.style.display='none'" />
                 <h3 style="margin-top:8px;">${p.name}</h3>
                 <p>${p.category || "لا يوجد تصنيف"}</p>
                 <p><strong>${p.afterDiscount || p.price || 0} دج</strong></p>
-                <button onclick="deleteProduct('${p.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:8px 16px;border:none;border-radius:8px;color:white;cursor:pointer;margin-top:8px;">حذف</button>
+                <button onclick="deleteProduct('${p.id}')" style="background:#dc3545;padding:8px 16px;border:none;border-radius:0px;color:white;cursor:pointer;margin-top:8px;">حذف</button>
             </div>
         `).join("");
-    } catch (error) { console.error("Error loading products:", error); }
+    } catch (error) { console.error("خطأ في تحميل المنتجات:", error); }
 }
 
 async function deleteProduct(id) {
@@ -168,12 +168,12 @@ async function loadCategoriesAdmin() {
         }
         if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد تصنيفات بعد</p>"; return; }
         list.innerHTML = items.map(c => `
-            <div class="glass-card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
                 <strong>${c.name}</strong>
-                <button onclick="deleteCategory('${c.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:6px 12px;border:none;border-radius:8px;color:white;cursor:pointer;">حذف</button>
+                <button onclick="deleteCategory('${c.id}')" style="background:#dc3545;padding:6px 12px;border:none;border-radius:0px;color:white;cursor:pointer;">حذف</button>
             </div>
         `).join("");
-    } catch (error) { console.error("Error loading categories:", error); }
+    } catch (error) { console.error("خطأ في تحميل التصنيفات:", error); }
 }
 
 async function deleteCategory(id) {
@@ -189,14 +189,14 @@ async function loadSlidesAdmin() {
         const items = await dbGetAll('slides', 'createdAt', true);
         if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد شرائح بعد</p>"; return; }
         list.innerHTML = items.map(s => `
-            <div class="glass-card" style="padding:12px;margin-bottom:12px;">
-                <img src="${s.image || ''}" style="width:100%;height:160px;object-fit:cover;border-radius:12px;" onerror="this.style.display='none'" />
+            <div class="card" style="padding:12px;margin-bottom:12px;">
+                <img src="${s.image || ''}" style="width:100%;height:160px;object-fit:cover;border-radius:0px;" onerror="this.style.display='none'" />
                 <h3 style="margin-top:8px;">${s.title}</h3>
                 <p>${s.text}</p>
-                <button onclick="deleteSlide('${s.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:8px 16px;border:none;border-radius:8px;color:white;cursor:pointer;margin-top:8px;">حذف</button>
+                <button onclick="deleteSlide('${s.id}')" style="background:#dc3545;padding:8px 16px;border:none;border-radius:0px;color:white;cursor:pointer;margin-top:8px;">حذف</button>
             </div>
         `).join("");
-    } catch (error) { console.error("Error loading slides:", error); }
+    } catch (error) { console.error("خطأ في تحميل الشرائح:", error); }
 }
 
 async function deleteSlide(id) {
@@ -205,7 +205,7 @@ async function deleteSlide(id) {
     loadSlidesAdmin();
 }
 
-/* ===== Orders ===== */
+/* ===== الطلبات كـ Cards ===== */
 async function loadOrdersAdmin() {
     const list = byId("ordersAdminList");
     if (!list) return;
@@ -213,21 +213,21 @@ async function loadOrdersAdmin() {
         const items = await dbGetAll('orders', 'createdAt', true);
         if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد طلبات بعد</p>"; return; }
 
-        const colors = { pending: "#f59e0b", done: "#10b981", rejected: "#ef4444", returned: "#f97316" };
+        const colors = { pending: "#ffc107", done: "#28a745", rejected: "#dc3545", returned: "#fd7e14" };
         const labels = { pending: "قيد الانتظار", done: "مكتمل", rejected: "مرفوض", returned: "مرتجع" };
 
         list.innerHTML = items.map(o => `
-            <div class="glass-card" style="padding:16px;margin-bottom:12px;border-right:5px solid ${colors[o.status] || '#333'};">
+            <div class="card" style="padding:16px;margin-bottom:12px;border-left:5px solid ${colors[o.status] || '#333'};">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
                     <h3 style="margin:0;">${o.fullName}</h3>
-                    <span style="background:${colors[o.status] || '#333'};color:white;padding:4px 12px;border-radius:8px;font-size:0.85rem;">${labels[o.status] || o.status}</span>
+                    <span style="background:${colors[o.status] || '#333'};color:white;padding:4px 12px;border-radius:0px;font-size:0.85rem;">${labels[o.status] || o.status}</span>
                 </div>
                 <p><strong>المنتج:</strong> ${o.productName}</p>
                 <p><strong>الهاتف:</strong> ${o.phone}</p>
                 <p><strong>التاريخ:</strong> ${o.orderDate || formatDate(o.createdAt)}</p>
                 <p><strong>المجموع:</strong> ${o.total} دج</p>
                 <p><strong>العنوان:</strong> ${o.state} - ${o.address}</p>
-                <select onchange="updateOrderStatus('${o.id}', this.value)" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border-glass);background:rgba(0,0,0,0.3);color:white;margin-top:10px;">
+                <select onchange="updateOrderStatus('${o.id}', this.value)" style="width:100%;padding:8px;border-radius:0px;border:1px solid #ddd;margin-top:10px;">
                     <option value="pending" ${o.status === "pending" ? "selected" : ""}>قيد الانتظار</option>
                     <option value="done" ${o.status === "done" ? "selected" : ""}>مكتمل</option>
                     <option value="rejected" ${o.status === "rejected" ? "selected" : ""}>مرفوض</option>
@@ -236,7 +236,7 @@ async function loadOrdersAdmin() {
             </div>
         `).join("");
         loadMonthlyProfits();
-    } catch (error) { console.error("Error loading orders:", error); }
+    } catch (error) { console.error("خطأ في تحميل الطلبات:", error); }
 }
 
 async function updateOrderStatus(id, status) {
@@ -244,7 +244,7 @@ async function updateOrderStatus(id, status) {
     loadOrdersAdmin();
 }
 
-/* ===== Profits ===== */
+/* ===== الأرباح كـ Calendar ===== */
 async function loadMonthlyProfits() {
     const container = byId("monthlyProfits");
     if (!container) return;
@@ -271,9 +271,9 @@ async function loadMonthlyProfits() {
 
         const grandTotal = done.reduce((s, o) => s + Number(o.total || 0), 0);
 
-        let html = `<div class="glass-card" style="background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(124,58,237,0.1));color:white;text-align:center;padding:30px;border-radius:20px;border:1px solid var(--border-glass);">
+        let html = `<div class="card" style="background:linear-gradient(135deg,#e774b7,#d95a9e);color:white;text-align:center;padding:30px;border-radius:0px;">
             <h2>💰 إجمالي الأرباح</h2>
-            <h1 style="font-size:48px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${grandTotal.toLocaleString()} دج</h1>
+            <h1 style="font-size:48px;">${grandTotal.toLocaleString()} دج</h1>
             <p>من ${done.length} طلب مكتمل</p>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:15px;margin-top:20px;">`;
@@ -283,26 +283,26 @@ async function loadMonthlyProfits() {
             const profitMargin = Math.round(d.total * 0.30);
             const netProfit = d.total - profitMargin;
             html += `
-            <div class="glass-card" style="padding:20px;border-right:4px solid var(--primary);">
+            <div class="card" style="padding:20px;border-left:4px solid #e774b7;">
                 <h3 style="margin-bottom:15px;">${d.month} ${d.year}</h3>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;">
-                    <div style="background:rgba(0,0,0,0.2);padding:10px;text-align:center;border-radius:8px;">
-                        <p style="font-size:11px;color:var(--text-muted);">الإجمالي</p>
-                        <p style="font-size:16px;font-weight:bold;color:var(--primary);">${d.total.toLocaleString()} دج</p>
+                    <div style="background:#f8f4fc;padding:10px;text-align:center;">
+                        <p style="font-size:11px;color:#888;">الإجمالي</p>
+                        <p style="font-size:16px;font-weight:bold;color:#e774b7;">${d.total.toLocaleString()} دج</p>
                     </div>
-                    <div style="background:rgba(0,0,0,0.2);padding:10px;text-align:center;border-radius:8px;">
-                        <p style="font-size:11px;color:var(--text-muted);">هامش الربح (30%)</p>
-                        <p style="font-size:16px;font-weight:bold;color:var(--success);">${profitMargin.toLocaleString()} دج</p>
+                    <div style="background:#f8f4fc;padding:10px;text-align:center;">
+                        <p style="font-size:11px;color:#888;">هامش الربح (30%)</p>
+                        <p style="font-size:16px;font-weight:bold;color:#28a745;">${profitMargin.toLocaleString()} دج</p>
                     </div>
-                    <div style="background:rgba(0,0,0,0.2);padding:10px;text-align:center;border-radius:8px;">
-                        <p style="font-size:11px;color:var(--text-muted);">المبلغ المدفوع</p>
-                        <p style="font-size:16px;font-weight:bold;color:var(--danger);">${netProfit.toLocaleString()} دج</p>
+                    <div style="background:#f8f4fc;padding:10px;text-align:center;">
+                        <p style="font-size:11px;color:#888;">المبلغ المدفوع</p>
+                        <p style="font-size:16px;font-weight:bold;color:#dc3545;">${netProfit.toLocaleString()} دج</p>
                     </div>
                 </div>
-                <p style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;">عدد الطلبات: ${d.orders}</p>
-                <div style="max-height:250px;overflow-y:auto;border:1px solid var(--border-glass);border-radius:8px;">
+                <p style="font-size:14px;color:#666;margin-bottom:10px;">عدد الطلبات: ${d.orders}</p>
+                <div style="max-height:250px;overflow-y:auto;border:1px solid #eee;">
                     <table style="width:100%;font-size:13px;border-collapse:collapse;">
-                        <thead style="background:rgba(0,0,0,0.3);">
+                        <thead style="background:#f0ece8;">
                             <tr>
                                 <th style="padding:8px;text-align:right;">العميل</th>
                                 <th style="padding:8px;text-align:right;">الهاتف</th>
@@ -312,7 +312,7 @@ async function loadMonthlyProfits() {
                         </thead>
                         <tbody>
                             ${d.items.map(item => `
-                                <tr style="border-bottom:1px solid var(--border-glass);">
+                                <tr style="border-bottom:1px solid #eee;">
                                     <td style="padding:8px;">${item.fullName}</td>
                                     <td style="padding:8px;">${item.phone}</td>
                                     <td style="padding:8px;">${item.productName}</td>
@@ -325,7 +325,7 @@ async function loadMonthlyProfits() {
             </div>`;
         });
         container.innerHTML = html + "</div>";
-    } catch (error) { console.error("Error loading profits:", error); }
+    } catch (error) { console.error("خطأ في تحميل الأرباح:", error); }
 }
 
 async function loadCouponsAdmin() {
@@ -335,12 +335,12 @@ async function loadCouponsAdmin() {
         const items = await dbGetAll('coupons');
         if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد كوبونات بعد</p>"; return; }
         list.innerHTML = items.map(c => `
-            <div class="glass-card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
                 <div><strong>${c.code}</strong> - ${c.value} دج</div>
-                <button onclick="deleteCoupon('${c.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:6px 12px;border:none;border-radius:8px;color:white;cursor:pointer;">حذف</button>
+                <button onclick="deleteCoupon('${c.id}')" style="background:#dc3545;padding:6px 12px;border:none;border-radius:0px;color:white;cursor:pointer;">حذف</button>
             </div>
         `).join("");
-    } catch (error) { console.error("Error loading coupons:", error); }
+    } catch (error) { console.error("خطأ في تحميل الكوبونات:", error); }
 }
 
 async function deleteCoupon(id) {
@@ -356,12 +356,12 @@ async function loadShippingAdmin() {
         const items = await dbGetAll('shipping');
         if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد قواعد شحن بعد</p>"; return; }
         list.innerHTML = items.map(s => `
-            <div class="glass-card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
                 <div><strong>${s.state}</strong> - ${s.free ? "مجاني" : s.price + " دج"}</div>
-                <button onclick="deleteShipping('${s.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:6px 12px;border:none;border-radius:8px;color:white;cursor:pointer;">حذف</button>
+                <button onclick="deleteShipping('${s.id}')" style="background:#dc3545;padding:6px 12px;border:none;border-radius:0px;color:white;cursor:pointer;">حذف</button>
             </div>
         `).join("");
-    } catch (error) { console.error("Error loading shipping:", error); }
+    } catch (error) { console.error("خطأ في تحميل الشحن:", error); }
 }
 
 async function deleteShipping(id) {
@@ -377,131 +377,18 @@ async function loadCommentsAdmin() {
         const items = await dbGetAll('comments', 'createdAt', true);
         if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد تعليقات بعد</p>"; return; }
         list.innerHTML = items.map(c => `
-            <div class="glass-card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:12px;">
                 <div><strong>${c.name}</strong><br />${c.text}<br /><small>${c.rating || 0}★</small></div>
-                <button onclick="deleteComment('${c.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:6px 12px;border:none;border-radius:8px;color:white;cursor:pointer;">حذف</button>
+                <button onclick="deleteComment('${c.id}')" style="background:#dc3545;padding:6px 12px;border:none;border-radius:0px;color:white;cursor:pointer;">حذف</button>
             </div>
         `).join("");
-    } catch (error) { console.error("Error loading comments:", error); }
+    } catch (error) { console.error("خطأ في تحميل التعليقات:", error); }
 }
 
 async function deleteComment(id) {
     if (!confirm("هل تريد حذف هذا التعليق؟")) return;
     await dbDelete('comments', id);
     loadCommentsAdmin();
-}
-
-/* ===== Landing Pages System ===== */
-async function loadLandingProducts() {
-    const select = byId("landingProductSelect");
-    if (!select) return;
-    try {
-        const products = await dbGetAll('products', 'name', false);
-        select.innerHTML = '<option value="">اختر منتجاً</option>' +
-            (products || []).map(p => `<option value="${p.id}">${p.name}</option>`).join("");
-    } catch (error) {
-        console.error("Error loading products for landing:", error);
-    }
-}
-
-function formatLanding(command) {
-    const editor = byId("landingContent");
-    if (!editor) return;
-    document.execCommand(command, false, null);
-    editor.focus();
-}
-
-async function loadLandingsAdmin() {
-    const list = byId("landingsAdminList");
-    if (!list) return;
-    try {
-        const items = await dbGetAll('landings', 'createdAt', true);
-        if (!items || !items.length) { list.innerHTML = "<p class='small-note'>لا توجد صفحات هبوط بعد</p>"; return; }
-        
-        list.innerHTML = items.map(l => `
-            <div class="glass-card" style="padding:16px;margin-bottom:12px;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
-                    <div>
-                        <h3 style="margin-bottom:5px;">${l.title}</h3>
-                        <p style="color:var(--text-muted);font-size:0.9rem;">${l.subtitle || ''}</p>
-                        <p style="color:var(--text-secondary);font-size:0.85rem;margin-top:5px;">
-                            <i class="fas fa-link"></i> 
-                            <a href="landing.html?productId=${l.productId}" target="_blank" style="color:var(--primary);">landing.html?productId=${l.productId}</a>
-                        </p>
-                    </div>
-                    <div style="display:flex;gap:8px;">
-                        <a href="landing.html?productId=${l.productId}" target="_blank">
-                            <button style="background:linear-gradient(135deg,var(--primary),var(--secondary));padding:6px 12px;border:none;border-radius:8px;color:white;cursor:pointer;">
-                                <i class="fas fa-eye"></i> معاينة
-                            </button>
-                        </a>
-                        <button onclick="deleteLanding('${l.id}')" style="background:linear-gradient(135deg,#ef4444,#dc2626);padding:6px 12px;border:none;border-radius:8px;color:white;cursor:pointer;">
-                            <i class="fas fa-trash"></i> حذف
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join("");
-    } catch (error) { console.error("Error loading landings:", error); }
-}
-
-async function deleteLanding(id) {
-    if (!confirm("هل تريد حذف صفحة الهبوط هذه؟")) return;
-    await dbDelete('landings', id);
-    loadLandingsAdmin();
-}
-
-async function saveLandingPage() {
-    const productId = byId("landingProductSelect").value;
-    const title = byId("landingTitle").value.trim();
-    const subtitle = byId("landingSubtitle").value.trim();
-    const content = byId("landingContent").innerHTML;
-    const btnColor = byId("landingBtnColor").value;
-    const btnText = byId("landingBtnText").value.trim();
-    
-    if (!productId) { showMessage("landingMessage", "❌ اختر منتجاً", false); return; }
-    if (!title) { showMessage("landingMessage", "❌ أدخل عنوان الصفحة", false); return; }
-    if (!content || content === '<br>') { showMessage("landingMessage", "❌ أدخل المحتوى", false); return; }
-
-    const btn = byId("saveLandingBtn");
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
-
-    try {
-        let bgImage = "";
-        const fileInput = byId("landingBgImage");
-        if (fileInput && fileInput.files[0]) {
-            bgImage = await uploadToCloudinary(fileInput.files[0]);
-        }
-
-        const landingData = {
-            productId,
-            title,
-            subtitle,
-            content,
-            bgImage,
-            btnColor,
-            btnText,
-            createdAt: new Date().toISOString()
-        };
-
-        await dbAdd('landings', landingData);
-        showMessage("landingMessage", "✅ تم إنشاء صفحة الهبوط بنجاح!");
-        
-        byId("landingTitle").value = "";
-        byId("landingSubtitle").value = "";
-        byId("landingContent").innerHTML = "";
-        byId("landingBgImage").value = "";
-        byId("landingImagePreview").innerHTML = "";
-        
-        loadLandingsAdmin();
-    } catch (error) {
-        console.error(error);
-        showMessage("landingMessage", "❌ خطأ: " + error.message, false);
-    }
-    
-    btn.disabled = false;
-    btn.innerHTML = '🚀 حفظ صفحة الهبوط';
 }
 
 function loadDesignInputs() {
@@ -521,18 +408,18 @@ function loadDesignInputs() {
     });
 }
 
-/* ===== Event Listeners ===== */
+/* ===== مستمعي الأحداث ===== */
 function setupEventListeners() {
     byId("saveDesignBtn")?.addEventListener("click", () => {
         const settings = {
             storeName: safeValue("storeNameInput"),
             nickname: safeValue("nicknameInput"),
-            primaryColor: safeValue("primaryColorInput", "#00d4ff"),
-            secondaryColor: safeValue("secondaryColorInput", "#7c3aed"),
-            accentColor: safeValue("accentColorInput", "#ec4899"),
-            textColor: safeValue("textColorInput", "#f1f5f9"),
+            primaryColor: safeValue("primaryColorInput", "#e774b7"),
+            secondaryColor: safeValue("secondaryColorInput", "#fce4f4"),
+            accentColor: safeValue("accentColorInput", "#e774b7"),
+            textColor: safeValue("textColorInput", "#1a1a2e"),
             footerText: safeValue("footerTextInput"),
-            cardStyle: "glass", currency: "DZD"
+            cardStyle: "classic", currency: "DZD"
         };
         saveStoreSettings(settings);
         showMessage("designMessage", "✅ تم حفظ التصميم بنجاح!");
@@ -552,9 +439,8 @@ function setupEventListeners() {
             const afterDiscount = Number(safeValue("productAfterDiscount", 0));
             const mode = safeValue("productMode", "buy");
             const stock = Number(safeValue("productStock", 0));
-            const compatibility = safeValue("productCompatibility");
+            const sizes = safeValue("productSizes");
             const colors = safeValue("productColors");
-            const warranty = safeValue("productWarranty");
             const category = safeValue("productCategory");
             const isBestSeller = safeChecked("isBestSeller");
             const isSpecialOffer = safeChecked("isSpecialOffer");
@@ -585,7 +471,7 @@ function setupEventListeners() {
                 name, description, images: uploadResult.urls,
                 price, beforeDiscount: beforeDiscount || 0,
                 afterDiscount: afterDiscount || price,
-                mode, stock: stock || 0, compatibility, colors, warranty, category,
+                mode, stock: stock || 0, sizes, colors, category,
                 isBestSeller, isSpecialOffer,
                 averageRating: 0, reviewCount: 0,
                 createdAt: new Date().toISOString()
@@ -656,8 +542,6 @@ function setupEventListeners() {
         showMessage("shippingMessage", "✅ تم إضافة قاعدة الشحن!");
         loadShippingAdmin();
     });
-
-    byId("saveLandingBtn")?.addEventListener("click", saveLandingPage);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -673,7 +557,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     setupDropZone('productDropZone', 'productImages', 'productImagePreview', true);
     setupDropZone('slideDropZone', 'slideImageFile', 'slideImagePreview', false);
-    setupDropZone('landingDropZone', 'landingBgImage', 'landingImagePreview', false);
 
     loadDesignInputs();
     loadProductsAdmin();
@@ -684,8 +567,6 @@ document.addEventListener("DOMContentLoaded", function() {
     loadShippingAdmin();
     loadCommentsAdmin();
     loadMonthlyProfits();
-    loadLandingProducts();
-    loadLandingsAdmin();
     setupEventListeners();
 });
 
@@ -697,5 +578,3 @@ window.deleteCoupon = deleteCoupon;
 window.deleteShipping = deleteShipping;
 window.deleteComment = deleteComment;
 window.removePreview = removePreview;
-window.formatLanding = formatLanding;
-window.deleteLanding = deleteLanding;

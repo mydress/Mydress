@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الدفع - TECH GLASS</title>
+    <title>الدفع - MY DRESS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -13,13 +13,9 @@
     <!-- Supabase (اختياري) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- ===== Facebook Pixel (الإعدادات في config.js) ===== -->
-    <script src="config.js"></script>
-    <script src="pixel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
-    <div class="bg-orb"></div>
     <div class="container checkout-wrap">
         <a href="index.html" class="back-link">← العودة إلى المتجر</a>
         <h1><i class="fas fa-credit-card"></i> إتمام الدفع</h1>
@@ -44,6 +40,7 @@
                     <label><i class="fas fa-tag"></i> نوع الطلب</label>
                     <select id="orderType">
                         <option value="buy">شراء</option>
+                        <option value="rent">كراء</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -94,6 +91,7 @@
         </form>
         <div id="checkoutResult"></div>
     </div>
+    <script src="config.js"></script>
     <script src="checkout.js"></script>
 </body>
 </html>

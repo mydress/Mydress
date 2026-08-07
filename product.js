@@ -12,8 +12,6 @@ initDB();
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
 
-let currentProduct = null; // يُستخدم لإرسال حدث AddToCart لاحقاً
-
 async function loadProduct() {
     const container = document.getElementById("productDetails");
     if (!container || !productId) {
@@ -28,19 +26,8 @@ async function loadProduct() {
             return;
         }
 
-        currentProduct = product;
         const images = product.images || [];
         const ratingData = await getProductRating(productId);
-        const finalPrice = product.afterDiscount || product.price || 0;
-
-        // 📊 Facebook Pixel: ViewContent
-        fbTrack('ViewContent', {
-            content_name: product.name,
-            content_ids: [productId],
-            content_type: 'product',
-            value: finalPrice,
-            currency: 'DZD'
-        });
 
         container.innerHTML = `
             <div class="product-layout">
@@ -91,16 +78,6 @@ function changeMainImage(img) {
 }
 
 function addToCartAndCheckout(productId) {
-    // 📊 Facebook Pixel: AddToCart
-    if (currentProduct) {
-        fbTrack('AddToCart', {
-            content_name: currentProduct.name,
-            content_ids: [productId],
-            content_type: 'product',
-            value: currentProduct.afterDiscount || currentProduct.price || 0,
-            currency: 'DZD'
-        });
-    }
     window.location.href = `checkout.html?id=${productId}`;
 }
 

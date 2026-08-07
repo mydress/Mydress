@@ -8,78 +8,57 @@
 const STORE_SETTINGS_KEY = "store_settings";
 
 const defaultStoreSettings = {
-    storeName: "TECH GLASS",
-    nickname: "إكسسوارات الهواتف الذكية",
+    storeName: "MY DRESS",
+    nickname: "كراء وشراء الفساتين",
     brandIdentity: "modern",
     currency: "DZD",
-    primaryColor: "#4da3ff",
-    secondaryColor: "#8fd8ff",
-    accentColor: "#56c8ff",
-    textColor: "#1f2937",
+    primaryColor: "#e774b7",
+    secondaryColor: "#fce4f4",
+    accentColor: "#e774b7",
+    textColor: "#1a1a2e",
     logoUrl: "assets/images/logo.png",
-    footerText: "© 2025 TECH GLASS - جميع الحقوق محفوظة",
+    footerText: "© 2025 MY DRESS - جميع الحقوق محفوظة",
     cardStyle: "classic"
 };
 
 const ADMIN_PASSWORD = "admin123";
 
 // ===== إعدادات Firebase (كما كانت - تعمل فوراً) =====
-  const firebaseConfig = {
+const firebaseConfig = {
 
-    apiKey: "AIzaSyArsYnAnlRTVtQcBZUyn4RvJLYraIglRPc",
+  apiKey: "AIzaSyBERbibMf6oQ7xcVL-8qHbWwAIQav3yiaw",
+  authDomain: "mydress-47603.firebaseapp.com",
+  databaseURL: "https://mydress-47603-default-rtdb.firebaseio.com",
+  projectId: "mydress-47603",
+  storageBucket: "mydress-47603.firebasestorage.app",
+  messagingSenderId: "513570993206",
+  appId: "1:513570993206:web:0dc73b3b1c9923b7b3d497",
+  measurementId: "G-TVNXYX2E9C"
 
-    authDomain: "wahab-7676f.firebaseapp.com",
-
-    databaseURL: "https://wahab-7676f-default-rtdb.firebaseio.com",
-
-    projectId: "wahab-7676f",
-
-    storageBucket: "wahab-7676f.firebasestorage.app",
-
-    messagingSenderId: "883414751448",
-
-    appId: "1:883414751448:web:8a1d28b9bf3dbe82869fad",
-
-    measurementId: "G-1SBVFL1XBV"
-
-  };
-
+};
 
 
 // ===== إعدادات Supabase (اختياري - غيّرها إذا تبي تستخدم Supabase) =====
 const supabaseConfig = {
-    url: "https://jvdvvauhekdoafebhark.supabase.co",
-    anonKey: "sb_publishable_fw7DOx3idN3cy1lqzOoe5w_JEMIRjYZ"
+    url: "https://gjihgxdwumeekyrxcdsq.supabase.co",
+    anonKey: "sb_publishable_zYFSSc9ZWOQz733JFcx_LQ_6XHIAI8G"
 };
 
 // ===== إعدادات Cloudinary (رفع الصور) =====
 const cloudinaryConfig = {
-    cloudName: "qqitc5qc",
-    uploadPreset: "WAHAB-PHONE"
+    cloudName: "vrwknoae",
+    uploadPreset: "mydress"
 };
 
 // ===== إعدادات EmailJS (إرسال الإيميلات) =====
 const emailjsConfig = {
-    publicKey: "-3FAZtiWeBm68egkw",
-    serviceId: "service_yts30hb",
-    templateId: "template_38fgeqn"
+    publicKey: "leU_2OIPw5yThaY0Z",
+    serviceId: "service_e6jtvm7",
+    templateId: "template_7y6czvb"
 };
 
 // ===== رابط Google Sheets (Apps Script Web App) =====
 const googleSheetsUrl = "https://script.google.com/macros/s/AKfycbzvGFNJiBEzya6sIiEpK2zn7LDeeQpaAmbHXMU-w_TmJANHW6A3TXEK1C73k96VBe_b/exec";
-
-// ===== إعدادات Facebook Pixel =====
-// 👇 ضع هنا رقم البيكسل (Pixel ID) الخاص بك من Meta Events Manager
-//    Meta Events Manager → Data Sources → اختر البيكسل → Settings → Pixel ID
-const facebookPixelConfig = {
-    pixelId: "YOUR_PIXEL_ID_HERE",       // مثال: "1234567890123456"
-
-    // 👇 الـ Access Token مطلوب فقط إذا فعّلت "Conversions API" (تتبع من طرف السيرفر، اختياري ومتقدم)
-    //    Meta Events Manager → البيكسل → Settings → Conversions API → Generate Access Token
-    //    ⚠️ لا تستخدم هذا التوكن مباشرة في كود المتصفح (JS) لأنه سري ويجب أن يبقى على سيرفر فقط.
-    //    استخدمه فقط داخل Google Apps Script / سيرفر خاص، وليس هنا في config.js.
-    accessToken: "YOUR_CONVERSIONS_API_ACCESS_TOKEN"
-};
 
 // ===== دوال مساعدة =====
 function loadStoreSettings() {
